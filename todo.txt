@@ -1,0 +1,46 @@
+1.引入adaptive-expressions相关包     <0.5h>
+	https://github.com/microsoft/botbuilder-js/blob/main/libraries/adaptive-expressions/package.json
+
+	yarn add adaptive-expressions
+
+2.封装adaptive-expressions工具   <0.5h>
+    添加bot.util.express.ts
+
+    demo:
+    const { ExpressionParser } = require('../lib');
+    const parser = new ExpressionParser();
+    let exp1 = Expression.parse("@answer").tryEvaluate(dc.state).value;
+
+    Factory.parse()方法抽象，ExpressionParser当作工厂的入参
+
+3.封装表达式接口层/在这里面加一层抽象/使得表达式框架可以自由切换   <3h>
+	添加bot.express.ts (此类导入bot.machine.ts)
+    在这里添加guards方法， 在这里调用bot.util.express.ts
+    demo:
+    exports isSpecialScene = (context, event) => {
+      expressContent = "${event.scene} == 'special'"
+      return util.parse(expressContent)
+    }
+
+4.Expression接口联调    <1h>
+
+5.testcase整合/尽量多的场景    <3h>
+
+
+
+
+curl -X POST http://localhost:3000/bot/main/messages -H 'Content-Type: application/json' -d '{"sender": "simon","message": "/greet{\"scene\": \"default\"}"'
+
+
+
+this.logger.debug(JSON.stringify({ sender, message }));
+
+private logger = new Logger(BotController.name);
+
+
+
+
+...
+
+==> []
+
